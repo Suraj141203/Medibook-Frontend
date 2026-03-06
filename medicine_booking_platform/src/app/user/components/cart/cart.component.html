@@ -1,0 +1,23 @@
+<div class="cart-page">
+  <div class="container">
+    <h1>Shopping Cart</h1>
+    <p class="text-muted">Cart page - Under development</p>
+    
+    <div *ngIf="cart.items.length === 0" class="empty-cart">
+      <i class="bi bi-cart-x" style="font-size: 4rem; color: #ccc;"></i>
+      <h3>Your cart is empty</h3>
+      <p>Add some medicines to get started!</p>
+      <button class="btn btn-primary" (click)="continueShopping()">
+        Browse Medicines
+      </button>
+    </div>
+
+    <div *ngIf="cart.items.length > 0">
+      <p>You have {{ cart.totalItems }} item(s) in your cart</p>
+      <p>Total: ₹{{ cart.total }}</p>
+      <button class="btn btn-primary" (click)="continueShopping()">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>

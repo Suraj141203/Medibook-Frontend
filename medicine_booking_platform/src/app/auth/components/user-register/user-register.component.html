@@ -1,0 +1,284 @@
+<div class="auth-container">
+  <div class="auth-wrapper">
+    <!-- Left Side - Branding -->
+    <div class="auth-branding">
+      <div class="branding-content animate-fadeIn">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <i class="bi bi-heart-pulse"></i>
+          </div>
+          <h1 class="brand-name">MediBook</h1>
+        </div>
+        
+        <div class="hero-text">
+          <h2 class="hero-title">Join Our Community</h2>
+          <p class="hero-description">
+            Create your account and start booking medicines from verified stores near you. 
+            Experience healthcare at your fingertips.
+          </p>
+        </div>
+
+        <div class="stats-section">
+          <div class="stat-item">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Active Users</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Partner Stores</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5M+</div>
+            <div class="stat-label">Medicines Booked</div>
+          </div>
+        </div>
+
+        <div class="decorative-pills">
+          <div class="pill pill-1"></div>
+          <div class="pill pill-2"></div>
+          <div class="pill pill-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Registration Form -->
+    <div class="auth-form-section">
+      <div class="form-container animate-slideInRight">
+        <div class="form-header">
+          <h2 class="form-title">Create Account</h2>
+          <p class="form-subtitle">Fill in your details to get started</p>
+        </div>
+
+        <!-- Error Alert -->
+        <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <div>{{ errorMessage }}</div>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+          <!-- Full Name Field -->
+          <div class="mb-3">
+            <label for="fullName" class="form-label">
+              <i class="bi bi-person me-1"></i>
+              Full Name
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="fullName"
+              formControlName="fullName"
+              placeholder="Enter your full name"
+              [class.is-invalid]="submitted && f['fullName'].errors"
+            >
+            <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+              <span *ngIf="f['fullName'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Full name is required
+              </span>
+              <span *ngIf="f['fullName'].errors['minlength']">
+                <i class="bi bi-info-circle"></i>
+                Name must be at least 3 characters
+              </span>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="mb-3">
+            <label for="email" class="form-label">
+              <i class="bi bi-envelope me-1"></i>
+              Email Address
+            </label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email"
+              formControlName="email"
+              placeholder="Enter your email"
+              [class.is-invalid]="submitted && f['email'].errors"
+            >
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <span *ngIf="f['email'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Email is required
+              </span>
+              <span *ngIf="f['email'].errors['email']">
+                <i class="bi bi-info-circle"></i>
+                Please enter a valid email
+              </span>
+            </div>
+          </div>
+
+          <!-- Phone Number Field -->
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">
+              <i class="bi bi-telephone me-1"></i>
+              Phone Number
+            </label>
+            <input 
+              type="tel" 
+              class="form-control" 
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              placeholder="Enter 10-digit phone number"
+              [class.is-invalid]="submitted && f['phoneNumber'].errors"
+            >
+            <div *ngIf="submitted && f['phoneNumber'].errors" class="invalid-feedback">
+              <span *ngIf="f['phoneNumber'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Phone number is required
+              </span>
+              <span *ngIf="f['phoneNumber'].errors['pattern']">
+                <i class="bi bi-info-circle"></i>
+                Please enter a valid 10-digit phone number
+              </span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="mb-3">
+            <label for="password" class="form-label">
+              <i class="bi bi-lock me-1"></i>
+              Password
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                class="form-control" 
+                id="password"
+                formControlName="password"
+                placeholder="Create a strong password"
+                [class.is-invalid]="submitted && f['password'].errors"
+              >
+              <button 
+                type="button" 
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility('password')"
+                tabindex="-1"
+              >
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback d-block">
+              <span *ngIf="f['password'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Password is required
+              </span>
+              <span *ngIf="f['password'].errors['minlength']">
+                <i class="bi bi-info-circle"></i>
+                Password must be at least 6 characters
+              </span>
+              <span *ngIf="f['password'].errors['passwordStrength']">
+                <i class="bi bi-info-circle"></i>
+                Password must contain uppercase, lowercase, and number
+              </span>
+            </div>
+            <div class="password-strength-indicator mt-2">
+              <div class="strength-bars">
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">
+              <i class="bi bi-lock-fill me-1"></i>
+              Confirm Password
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                [type]="showConfirmPassword ? 'text' : 'password'" 
+                class="form-control" 
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                placeholder="Re-enter your password"
+                [class.is-invalid]="submitted && (f['confirmPassword'].errors || registerForm.errors?.['passwordMismatch'])"
+              >
+              <button 
+                type="button" 
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility('confirm')"
+                tabindex="-1"
+              >
+                <i [class]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="submitted && (f['confirmPassword'].errors || registerForm.errors?.['passwordMismatch'])" class="invalid-feedback d-block">
+              <span *ngIf="f['confirmPassword'].errors?.['required']">
+                <i class="bi bi-info-circle"></i>
+                Please confirm your password
+              </span>
+              <span *ngIf="registerForm.errors?.['passwordMismatch'] && !f['confirmPassword'].errors?.['required']">
+                <i class="bi bi-info-circle"></i>
+                Passwords do not match
+              </span>
+            </div>
+          </div>
+
+          <!-- Terms and Conditions -->
+          <div class="mb-4">
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="acceptTerms"
+                formControlName="acceptTerms"
+                [class.is-invalid]="submitted && f['acceptTerms'].errors"
+              >
+              <label class="form-check-label" for="acceptTerms">
+                I agree to the <a href="#" class="link-primary">Terms & Conditions</a> and <a href="#" class="link-primary">Privacy Policy</a>
+              </label>
+            </div>
+            <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback d-block">
+              <i class="bi bi-info-circle"></i>
+              You must accept the terms and conditions
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">
+              <i class="bi bi-person-plus me-2"></i>
+              Create Account
+            </span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+              Creating account...
+            </span>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider my-4">
+            <span>or sign up with</span>
+          </div>
+
+          <!-- Social Signup Buttons -->
+          <div class="social-login-buttons">
+            <button type="button" class="btn btn-outline-secondary">
+              <i class="bi bi-google"></i>
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              <i class="bi bi-facebook"></i>
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              <i class="bi bi-apple"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- Login Link -->
+        <div class="login-link">
+          Already have an account? 
+          <a (click)="navigateToLogin()" class="link-primary">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<nav class="store-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <div class="brand-icon">
+        <i class="bi bi-shop-window"></i>
+      </div>
+      <div class="brand-info">
+        <h2 class="brand-name">{{ storeName }}</h2>
+        <span class="brand-subtitle">Store Dashboard</span>
+      </div>
+    </div>
+
+    <div class="navbar-menu">
+      <a routerLink="/store/dashboard" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/store/add-medicine" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-plus-circle"></i>
+        <span>Add Medicine</span>
+      </a>
+      <a routerLink="/store/medicines" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-capsule"></i>
+        <span>Manage Medicines</span>
+      </a>
+      <a routerLink="/store/orders" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-bag-check"></i>
+        <span>Orders</span>
+      </a>
+    </div>
+
+    <div class="navbar-actions">
+      <button class="notification-btn" title="Notifications">
+        <i class="bi bi-bell"></i>
+        <span *ngIf="notifications > 0" class="notification-badge">{{ notifications }}</span>
+      </button>
+      <button class="logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,224 @@
+<div class="auth-container">
+  <div class="auth-wrapper">
+    <!-- Left Side - Store Branding -->
+    <div class="store-branding">
+      <div class="branding-content animate-fadeIn">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <i class="bi bi-shop-window"></i>
+          </div>
+          <h1 class="brand-name">MediBook</h1>
+          <span class="store-badge">Store Portal</span>
+        </div>
+        
+        <div class="hero-text">
+          <h2 class="hero-title">Manage Your Pharmacy</h2>
+          <p class="hero-description">
+            Access your store dashboard to manage inventory, track orders, 
+            and serve your customers better.
+          </p>
+        </div>
+
+        <div class="store-features">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <div class="feature-content">
+              <h4>Inventory Control</h4>
+              <p>Real-time stock management</p>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <div class="feature-content">
+              <h4>Sales Analytics</h4>
+              <p>Track performance metrics</p>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-people"></i>
+            </div>
+            <div class="feature-content">
+              <h4>Customer Orders</h4>
+              <p>Manage bookings efficiently</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="auth-form-section">
+      <div class="form-container animate-slideInRight">
+        <div class="form-header">
+          <div class="header-badge">
+            <i class="bi bi-shield-check"></i>
+            <span>Verified Store Access</span>
+          </div>
+          <h2 class="form-title">Store Login</h2>
+          <p class="form-subtitle">Enter your credentials to access the store dashboard</p>
+        </div>
+
+        <!-- Error Alert -->
+        <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <div>{{ errorMessage }}</div>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <!-- Store ID Field -->
+          <div class="mb-4">
+            <label for="storeId" class="form-label">
+              <i class="bi bi-building me-1"></i>
+              Store ID
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="storeId"
+              formControlName="storeId"
+              placeholder="Enter your store ID"
+              [class.is-invalid]="submitted && f['storeId'].errors"
+            >
+            <div *ngIf="submitted && f['storeId'].errors" class="invalid-feedback">
+              <span *ngIf="f['storeId'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Store ID is required
+              </span>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="mb-4">
+            <label for="email" class="form-label">
+              <i class="bi bi-envelope me-1"></i>
+              Email Address
+            </label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email"
+              formControlName="email"
+              placeholder="Enter store email"
+              [class.is-invalid]="submitted && f['email'].errors"
+            >
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <span *ngIf="f['email'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Email is required
+              </span>
+              <span *ngIf="f['email'].errors['email']">
+                <i class="bi bi-info-circle"></i>
+                Please enter a valid email
+              </span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="mb-4">
+            <label for="password" class="form-label">
+              <i class="bi bi-lock me-1"></i>
+              Password
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                class="form-control" 
+                id="password"
+                formControlName="password"
+                placeholder="Enter your password"
+                [class.is-invalid]="submitted && f['password'].errors"
+              >
+              <button 
+                type="button" 
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility()"
+                tabindex="-1"
+              >
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback d-block">
+              <span *ngIf="f['password'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Password is required
+              </span>
+              <span *ngIf="f['password'].errors['minlength']">
+                <i class="bi bi-info-circle"></i>
+                Password must be at least 6 characters
+              </span>
+            </div>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="rememberMe"
+                formControlName="rememberMe"
+              >
+              <label class="form-check-label" for="rememberMe">
+                Keep me signed in
+              </label>
+            </div>
+            <a href="#" class="forgot-password-link">Forgot password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn btn-store-primary w-100 mb-4"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">
+              <i class="bi bi-box-arrow-in-right me-2"></i>
+              Access Store Dashboard
+            </span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+              Authenticating...
+            </span>
+          </button>
+
+          <!-- Support Info -->
+          <div class="support-info">
+            <div class="info-card">
+              <i class="bi bi-headset"></i>
+              <div>
+                <strong>Need Help?</strong>
+                <p>Contact support at <a href="mailto:store-support&#64;medibook.com">store-support&#64;medibook.com</a></p>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Switch Login Type -->
+        <div class="switch-login">
+          <p class="text-muted small mb-2">Not a store owner?</p>
+          <div class="btn-group w-100" role="group">
+            <a (click)="navigateToUserLogin()" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-person me-1"></i>
+              User Login
+            </a>
+            <a routerLink="/auth/admin-login" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-shield-check me-1"></i>
+              Admin Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

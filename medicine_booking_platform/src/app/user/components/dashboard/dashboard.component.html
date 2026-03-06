@@ -1,0 +1,167 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section animate-fadeIn">
+    <div class="welcome-content">
+      <h1 class="welcome-title">{{ getGreeting() }}, {{ currentUser?.fullName }}! 👋</h1>
+      <p class="welcome-subtitle">Your health is our priority. Find and book medicines from nearby stores.</p>
+    </div>
+    <div class="welcome-illustration">
+      <i class="bi bi-heart-pulse-fill"></i>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid animate-fadeIn" style="animation-delay: 0.1s;">
+    <div class="stat-card">
+      <div class="stat-icon primary">
+        <i class="bi bi-bag-check-fill"></i>
+      </div>
+      <div class="stat-details">
+        <h3>{{ orderStats.total }}</h3>
+        <p>Total Orders</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon warning">
+        <i class="bi bi-clock-fill"></i>
+      </div>
+      <div class="stat-details">
+        <h3>{{ orderStats.pending }}</h3>
+        <p>Pending Orders</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon success">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+      <div class="stat-details">
+        <h3>{{ orderStats.completed }}</h3>
+        <p>Completed</p>
+      </div>
+    </div>
+
+    <div class="stat-card" (click)="navigateToCart()">
+      <div class="stat-icon accent">
+        <i class="bi bi-cart-fill"></i>
+      </div>
+      <div class="stat-details">
+        <h3>{{ cartItemCount }}</h3>
+        <p>Items in Cart</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="section-header animate-fadeIn" style="animation-delay: 0.2s;">
+    <h2 class="section-title">Quick Actions</h2>
+    <p class="section-subtitle">Get started with these common tasks</p>
+  </div>
+
+  <div class="quick-actions-grid animate-fadeIn" style="animation-delay: 0.3s;">
+    <div *ngFor="let action of quickActions" 
+         class="action-card" 
+         [class]="'action-card-' + action.color"
+         [routerLink]="action.route">
+      <div class="action-icon">
+        <i [class]="action.icon"></i>
+      </div>
+      <div class="action-content">
+        <h3>{{ action.title }}</h3>
+        <p>{{ action.description }}</p>
+      </div>
+      <i class="bi bi-arrow-right action-arrow"></i>
+    </div>
+  </div>
+
+  <!-- Featured Medicines -->
+  <div class="section-header animate-fadeIn" style="animation-delay: 0.4s;">
+    <div>
+      <h2 class="section-title">Featured Medicines</h2>
+      <p class="section-subtitle">Popular and highly rated medicines</p>
+    </div>
+    <button class="view-all-btn" (click)="navigateToMedicines()">
+      View All
+      <i class="bi bi-arrow-right"></i>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-section">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading medicines...</p>
+  </div>
+
+  <!-- Featured Medicines Grid -->
+  <div *ngIf="!loading" class="medicines-grid animate-fadeIn" style="animation-delay: 0.5s;">
+    <div *ngFor="let medicine of featuredMedicines" class="medicine-card">
+      <div class="medicine-image">
+        <img [src]="medicine.imageUrl" [alt]="medicine.name" loading="lazy">
+        <div class="medicine-badges">
+          <span *ngIf="!medicine.inStock" class="badge-out-of-stock">Out of Stock</span>
+          <span *ngIf="medicine.prescription" class="badge-prescription">Rx</span>
+          <span *ngIf="medicine.discountPrice" class="badge-discount">
+            {{ ((medicine.price - medicine.discountPrice!) / medicine.price * 100).toFixed(0) }}% OFF
+          </span>
+        </div>
+      </div>
+
+      <div class="medicine-content">
+        <h3 class="medicine-name">{{ medicine.name }}</h3>
+        <p class="medicine-manufacturer">{{ medicine.manufacturer }}</p>
+        <p class="medicine-category">
+          <i class="bi bi-tag"></i>
+          {{ medicine.category }}
+        </p>
+
+        <div class="medicine-rating" *ngIf="medicine.rating">
+          <div class="rating-stars">
+            <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]" 
+               [class.active]="star <= (medicine.rating || 0)"></i>
+          </div>
+          <span class="rating-count">({{ medicine.reviewCount }})</span>
+        </div>
+
+        <div class="medicine-footer">
+          <div class="medicine-price">
+            <span *ngIf="medicine.discountPrice" class="price-original">₹{{ medicine.price }}</span>
+            <span class="price-current">₹{{ medicine.discountPrice || medicine.price }}</span>
+          </div>
+          <button 
+            class="btn-add-cart" 
+            (click)="addToCart(medicine)"
+            [disabled]="!medicine.inStock">
+            <i class="bi bi-cart-plus"></i>
+            {{ medicine.inStock ? 'Add' : 'Unavailable' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Health Tips Section -->
+  <div class="health-tips-section animate-fadeIn" style="animation-delay: 0.6s;">
+    <div class="health-tip-card">
+      <div class="tip-icon">
+        <i class="bi bi-lightbulb"></i>
+      </div>
+      <div class="tip-content">
+        <h3>Health Tip of the Day</h3>
+        <p>Always complete your full course of prescribed antibiotics, even if you feel better before finishing them.</p>
+      </div>
+    </div>
+
+    <div class="health-tip-card">
+      <div class="tip-icon">
+        <i class="bi bi-shield-check"></i>
+      </div>
+      <div class="tip-content">
+        <h3>Safety First</h3>
+        <p>Check expiry dates on all medicines before use. Store them in a cool, dry place away from children.</p>
+      </div>
+    </div>
+  </div>
+</div>

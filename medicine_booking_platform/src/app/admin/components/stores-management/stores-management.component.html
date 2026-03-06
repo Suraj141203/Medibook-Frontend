@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <h2>Stores Management</h2>
+  <div *ngIf="!loading" class="table-responsive mt-3">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Store ID</th>
+          <th>Store Name</th>
+          <th>Owner</th>
+          <th>Phone</th>
+          <th>License</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let store of stores" [class]="store.status === 'pending' ? 'table-warning' : ''">
+          <td>{{store.storeIdCode}}</td>
+          <td>{{store.storeName}}</td>
+          <td>{{store.ownerName}}</td>
+          <td>{{store.phone}}</td>
+          <td>{{store.licenseNumber}}</td>
+          <td><span class="badge" [class]="store.status === 'approved' ? 'bg-success' : 
+              (store.status === 'pending' ? 'bg-warning' : 'bg-danger')">{{store.status | uppercase}}</span></td>
+          <td>
+            <button *ngIf="store.status === 'pending'" class="btn btn-sm btn-success me-1" 
+                    (click)="approveStore(store.id)">Approve</button>
+            <button *ngIf="store.status === 'pending'" class="btn btn-sm btn-danger" 
+                    (click)="rejectStore(store.id)">Reject</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

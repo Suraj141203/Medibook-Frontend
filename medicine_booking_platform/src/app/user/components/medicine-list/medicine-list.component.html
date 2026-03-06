@@ -1,0 +1,166 @@
+<div class="medicine-list-container">
+  <!-- Header Section -->
+  <div class="page-header animate-fadeIn">
+    <div class="header-content">
+      <h1 class="page-title">Browse Medicines</h1>
+      <p class="page-subtitle">Find the medicines you need from our extensive catalog</p>
+    </div>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="search-filter-section animate-fadeIn" style="animation-delay: 0.1s;">
+    <!-- Search Bar -->
+    <div class="search-container">
+      <i class="bi bi-search search-icon"></i>
+      <input 
+        type="text" 
+        class="search-input" 
+        placeholder="Search medicines by name, category, or manufacturer..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+      >
+      <button 
+        *ngIf="searchQuery" 
+        class="clear-search-btn" 
+        (click)="clearSearch()">
+        <i class="bi bi-x-circle-fill"></i>
+      </button>
+    </div>
+
+    <!-- Sort Dropdown -->
+    <div class="sort-container">
+      <label for="sort" class="sort-label">
+        <i class="bi bi-sort-down"></i>
+        Sort by:
+      </label>
+      <select 
+        id="sort" 
+        class="sort-select" 
+        [(ngModel)]="sortBy"
+        (change)="onSortChange()">
+        <option *ngFor="let option of sortOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <!-- Categories Sidebar -->
+    <aside class="categories-sidebar animate-fadeIn" style="animation-delay: 0.2s;">
+      <h3 class="sidebar-title">Categories</h3>
+      <div class="category-list">
+        <button 
+          *ngFor="let category of categories" 
+          class="category-item"
+          [class.active]="selectedCategory === category"
+          (click)="onCategoryChange(category)">
+          <i class="bi bi-tag"></i>
+          <div class="category-info">
+            <span class="category-name">{{ category }}</span>
+            <span class="category-count">{{ category }}</span>
+          </div>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="medicines-content">
+      <!-- Results Info -->
+      <div class="results-header animate-fadeIn" style="animation-delay: 0.3s;">
+        <p class="results-text">{{ getResultsText() }}</p>
+        <div class="view-options">
+          <span class="active-filters" *ngIf="selectedCategory !== 'All Medicines'">
+            <i class="bi bi-funnel-fill"></i>
+            {{ selectedCategory }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading medicines...</p>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="!loading && filteredMedicines.length === 0" class="no-results">
+        <i class="bi bi-search"></i>
+        <h3>No medicines found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn btn-primary" (click)="clearSearch()">
+          Clear Search
+        </button>
+      </div>
+
+      <!-- Medicines Grid -->
+      <div *ngIf="!loading && filteredMedicines.length > 0" 
+           class="medicines-grid animate-fadeIn" 
+           style="animation-delay: 0.4s;">
+        <div *ngFor="let medicine of filteredMedicines" class="medicine-card">
+          <div class="medicine-image">
+            <img [src]="medicine.imageUrl" [alt]="medicine.name" loading="lazy">
+            <div class="medicine-badges">
+              <span *ngIf="!medicine.inStock" class="badge-out-of-stock">
+                <i class="bi bi-x-circle"></i> Out of Stock
+              </span>
+              <span *ngIf="medicine.prescription" class="badge-prescription">
+                <i class="bi bi-shield-check"></i> Rx Required
+              </span>
+              <span *ngIf="medicine.discountPrice" class="badge-discount">
+                {{ ((medicine.price - medicine.discountPrice!) / medicine.price * 100).toFixed(0) }}% OFF
+              </span>
+            </div>
+          </div>
+
+          <div class="medicine-info">
+            <div class="medicine-header">
+              <h3 class="medicine-name">{{ medicine.name }}</h3>
+              <p class="medicine-manufacturer">{{ medicine.manufacturer }}</p>
+            </div>
+
+            <p class="medicine-description">{{ medicine.description }}</p>
+
+            <div class="medicine-meta">
+              <span class="medicine-category">
+                <i class="bi bi-tag-fill"></i>
+                {{ medicine.category }}
+              </span>
+              <span class="medicine-dosage" *ngIf="medicine.dosage">
+                <i class="bi bi-capsule"></i>
+                {{ medicine.dosage }}
+              </span>
+            </div>
+
+            <div class="medicine-rating" *ngIf="medicine.rating">
+              <div class="rating-stars">
+                <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]" 
+                   [class.active]="star <= (medicine.rating || 0)"></i>
+              </div>
+              <span class="rating-text">{{ medicine.rating }} ({{ medicine.reviewCount }} reviews)</span>
+            </div>
+
+            <div class="medicine-footer">
+              <div class="price-section">
+                <span *ngIf="medicine.discountPrice" class="price-original">₹{{ medicine.price }}</span>
+                <span class="price-current">₹{{ medicine.discountPrice || medicine.price }}</span>
+                <span *ngIf="medicine.discountPrice" class="price-savings">
+                  Save ₹{{ (medicine.price - medicine.discountPrice!).toFixed(2) }}
+                </span>
+              </div>
+              <button 
+                class="btn-add-to-cart" 
+                (click)="addToCart(medicine, $event)"
+                [disabled]="!medicine.inStock">
+                <i class="bi bi-cart-plus"></i>
+                {{ medicine.inStock ? 'Add to Cart' : 'Out of Stock' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <i class="bi bi-shield-check"></i> Admin Panel
+    </a>
+    <div class="navbar-nav">
+      <a routerLink="/admin/dashboard" class="nav-link" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/admin/users" class="nav-link" routerLinkActive="active">Users</a>
+      <a routerLink="/admin/stores" class="nav-link" routerLinkActive="active">Stores</a>
+      <a routerLink="/admin/orders" class="nav-link" routerLinkActive="active">Orders</a>
+      <button (click)="logout()" class="btn btn-outline-light ms-3">Logout</button>
+    </div>
+  </div>
+</nav>

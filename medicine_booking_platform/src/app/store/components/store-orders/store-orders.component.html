@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Orders Management</h2>
+
+  <div class="mb-3">
+    <label>Filter by Status:</label>
+    <select class="form-control w-auto" [(ngModel)]="statusFilter" (change)="filterOrders()">
+      <option value="all">All Orders</option>
+      <option value="pending">Pending</option>
+      <option value="accepted">Accepted</option>
+      <option value="ready">Ready</option>
+      <option value="completed">Completed</option>
+      <option value="rejected">Rejected</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="text-center">Loading...</div>
+
+  <div *ngIf="!loading" class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Order #</th>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Pickup</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td><strong>{{order.orderNumber}}</strong></td>
+          <td>{{order.customerName}}</td>
+          <td>{{order.customerPhone}}</td>
+          <td>{{order.items.length}} items</td>
+          <td>₹{{order.total}}</td>
+          <td>{{order.pickupDate | date:'dd/MM/yyyy'}}<br><small>{{order.pickupTime}}</small></td>
+          <td><span class="badge" [class]="getStatusBadge(order.status)">{{order.status | uppercase}}</span></td>
+          <td>
+            <button *ngIf="order.status === 'pending'" class="btn btn-sm btn-success me-1" 
+                    (click)="updateStatus(order.id, 'accepted')">Accept</button>
+            <button *ngIf="order.status === 'pending'" class="btn btn-sm btn-danger" 
+                    (click)="updateStatus(order.id, 'rejected')">Reject</button>
+            <button *ngIf="order.status === 'accepted'" class="btn btn-sm btn-info" 
+                    (click)="updateStatus(order.id, 'ready')">Mark Ready</button>
+            <button *ngIf="order.status === 'ready'" class="btn btn-sm btn-primary" 
+                    (click)="updateStatus(order.id, 'completed')">Complete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="navbar-brand" (click)="navigateTo('/user/dashboard')">
+      <div class="logo-icon">
+        <i class="bi bi-capsule-pill"></i>
+      </div>
+      <span class="brand-name">MediBook</span>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="navbar-menu">
+      <a routerLink="/user/dashboard" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-house-door"></i>
+        <span>Home</span>
+      </a>
+      <a routerLink="/user/medicines" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-capsule"></i>
+        <span>Medicines</span>
+      </a>
+      <a routerLink="/user/orders" routerLinkActive="active" class="nav-link">
+        <i class="bi bi-bag-check"></i>
+        <span>My Orders</span>
+      </a>
+    </div>
+
+    <!-- Right Side Actions -->
+    <div class="navbar-actions">
+      <!-- Cart Button -->
+      <button class="cart-btn" routerLink="/user/cart">
+        <i class="bi bi-cart3"></i>
+        <span *ngIf="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
+      </button>
+
+      <!-- User Menu -->
+      <div class="user-menu">
+        <div class="user-avatar">
+          <i class="bi bi-person-circle"></i>
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ currentUser?.fullName || 'User' }}</span>
+          <button class="logout-btn" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <div class="mobile-user-info">
+      <div class="mobile-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+      <div class="mobile-user-details">
+        <h4>{{ currentUser?.fullName || 'User' }}</h4>
+        <p>{{ currentUser?.email }}</p>
+      </div>
+    </div>
+
+    <div class="mobile-nav-links">
+      <a routerLink="/user/dashboard" (click)="toggleMenu()" class="mobile-nav-link">
+        <i class="bi bi-house-door"></i>
+        <span>Home</span>
+      </a>
+      <a routerLink="/user/medicines" (click)="toggleMenu()" class="mobile-nav-link">
+        <i class="bi bi-capsule"></i>
+        <span>Medicines</span>
+      </a>
+      <a routerLink="/user/cart" (click)="toggleMenu()" class="mobile-nav-link">
+        <i class="bi bi-cart3"></i>
+        <span>Cart</span>
+        <span *ngIf="cartItemCount > 0" class="mobile-cart-badge">{{ cartItemCount }}</span>
+      </a>
+      <a routerLink="/user/orders" (click)="toggleMenu()" class="mobile-nav-link">
+        <i class="bi bi-bag-check"></i>
+        <span>My Orders</span>
+      </a>
+      <button (click)="logout()" class="mobile-nav-link logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+</nav>

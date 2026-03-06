@@ -1,0 +1,278 @@
+<div class="auth-container">
+  <div class="auth-wrapper">
+    <!-- Left Side - Admin Branding -->
+    <div class="admin-branding">
+      <div class="branding-content animate-fadeIn">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <i class="bi bi-shield-fill-check"></i>
+          </div>
+          <h1 class="brand-name">MediBook</h1>
+          <span class="admin-badge">
+            <i class="bi bi-star-fill"></i>
+            Admin Portal
+          </span>
+        </div>
+        
+        <div class="hero-text">
+          <h2 class="hero-title">Platform Control Center</h2>
+          <p class="hero-description">
+            Secure access to the administrative dashboard. Monitor platform operations, 
+            manage users, and oversee all medical store activities.
+          </p>
+        </div>
+
+        <div class="admin-stats">
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">Total Control</div>
+              <div class="stat-label">User Management</div>
+            </div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="bi bi-bar-chart-fill"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">Real-time</div>
+              <div class="stat-label">Analytics & Reports</div>
+            </div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="bi bi-gear-fill"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">Advanced</div>
+              <div class="stat-label">System Settings</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="security-badge">
+          <i class="bi bi-lock-fill"></i>
+          <span>Multi-layer security enabled</span>
+        </div>
+
+        <div class="circuit-pattern">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="3" fill="rgba(255,255,255,0.3)">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="150" cy="50" r="3" fill="rgba(255,255,255,0.3)">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="100" cy="100" r="3" fill="rgba(255,255,255,0.3)">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" begin="1s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="50" cy="150" r="3" fill="rgba(255,255,255,0.3)">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="150" cy="150" r="3" fill="rgba(255,255,255,0.3)">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" begin="2s" repeatCount="indefinite"/>
+            </circle>
+            <line x1="50" y1="50" x2="150" y2="50" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="150" y1="50" x2="100" y2="100" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="50" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="100" y1="100" x2="150" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <line x1="50" y1="50" x2="50" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="auth-form-section">
+      <div class="form-container animate-slideInRight">
+        <div class="form-header">
+          <div class="security-indicator">
+            <div class="indicator-dot"></div>
+            <span>Secure Connection</span>
+          </div>
+          <h2 class="form-title">Administrator Access</h2>
+          <p class="form-subtitle">Authorized personnel only</p>
+        </div>
+
+        <!-- Error Alert -->
+        <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <div>{{ errorMessage }}</div>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <!-- Admin Code Field -->
+          <div class="mb-4">
+            <label for="adminCode" class="form-label">
+              <i class="bi bi-key me-1"></i>
+              Admin Code
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="adminCode"
+              formControlName="adminCode"
+              placeholder="Enter your admin code"
+              [class.is-invalid]="submitted && f['adminCode'].errors"
+            >
+            <div *ngIf="submitted && f['adminCode'].errors" class="invalid-feedback">
+              <span *ngIf="f['adminCode'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Admin code is required
+              </span>
+              <span *ngIf="f['adminCode'].errors['minlength']">
+                <i class="bi bi-info-circle"></i>
+                Admin code must be at least 6 characters
+              </span>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="mb-4">
+            <label for="email" class="form-label">
+              <i class="bi bi-envelope me-1"></i>
+              Administrator Email
+            </label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email"
+              formControlName="email"
+              placeholder="Enter admin email"
+              [class.is-invalid]="submitted && f['email'].errors"
+            >
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <span *ngIf="f['email'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Email is required
+              </span>
+              <span *ngIf="f['email'].errors['email']">
+                <i class="bi bi-info-circle"></i>
+                Please enter a valid email
+              </span>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="mb-4">
+            <label for="password" class="form-label">
+              <i class="bi bi-lock me-1"></i>
+              Password
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                class="form-control" 
+                id="password"
+                formControlName="password"
+                placeholder="Enter your password"
+                [class.is-invalid]="submitted && f['password'].errors"
+              >
+              <button 
+                type="button" 
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility()"
+                tabindex="-1"
+              >
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback d-block">
+              <span *ngIf="f['password'].errors['required']">
+                <i class="bi bi-info-circle"></i>
+                Password is required
+              </span>
+              <span *ngIf="f['password'].errors['minlength']">
+                <i class="bi bi-info-circle"></i>
+                Password must be at least 8 characters
+              </span>
+            </div>
+          </div>
+
+          <!-- Remember Me & Security Notice -->
+          <div class="mb-4">
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="rememberMe"
+                formControlName="rememberMe"
+              >
+              <label class="form-check-label" for="rememberMe">
+                Remember this device
+              </label>
+            </div>
+            <div class="security-notice mt-2">
+              <i class="bi bi-info-circle"></i>
+              <span>All login attempts are logged and monitored</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn btn-admin-primary w-100 mb-4"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">
+              <i class="bi bi-shield-lock me-2"></i>
+              Authenticate & Enter
+            </span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+              Authenticating...
+            </span>
+          </button>
+
+          <!-- Additional Security Info -->
+          <div class="security-features">
+            <div class="feature-item">
+              <i class="bi bi-shield-check"></i>
+              <span>2FA Protected</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-fingerprint"></i>
+              <span>Biometric Ready</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-cpu"></i>
+              <span>AI Monitoring</span>
+            </div>
+          </div>
+        </form>
+
+        <!-- Emergency Contact -->
+        <div class="emergency-contact">
+          <div class="contact-card">
+            <i class="bi bi-exclamation-triangle"></i>
+            <div>
+              <strong>Emergency Access</strong>
+              <p>If you've lost access, contact the system administrator immediately</p>
+              <a href="tel:+1234567890" class="emergency-link">
+                <i class="bi bi-telephone-fill"></i>
+                Emergency Hotline
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Switch Login Type -->
+        <div class="switch-login">
+          <p class="text-muted small mb-2">Not an administrator?</p>
+          <div class="btn-group w-100" role="group">
+            <a (click)="navigateToUserLogin()" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-person me-1"></i>
+              User Login
+            </a>
+            <a routerLink="/auth/store-login" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-shop me-1"></i>
+              Store Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
